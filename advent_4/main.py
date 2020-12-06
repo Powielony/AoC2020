@@ -1,33 +1,47 @@
+import re
+
 file = open('input', 'r')
 
-data = ""
+eclTupl = ('amb', 'blu', 'brn', 'gry', 'hzl', 'oth')
+
+dane = list()
 Valid = 0
-numOfFields = 0
-e = 0
-r = 0
 
 for line in file:
     if line != "\n":
-        data += line
-        dane = data.split()
+        dane += line.split()
 
-        numOfFields = len(dane)
+        if len(dane) >= 7:
+            
+            slow = {'byr':"",'iyr':'','eyr':'','hgt':'','hcl':'','ecl':'','pid':''}
 
-        if numOfFields >= 7:
-            dane.sort()
+            for val in dane:
+                valKey, valVal = val.split(':')
+                slow[valKey] = valVal
 
-            if numOfFields >= 8:
-                dane.pop(
-        
+            hclSearch = re.search("#", slow['hcl'])
 
+            if int(eval(slow['byr'])) not in range(1920, 2002):
+                break
+            
+            '''if slow['ecl'] not in eclTupl:
+                break
+
+            if int(eval(slow['eyr'])) not in range(2020, 2030):
+                break
+            
+            if len(hclSearch.string) < 7:
+                print(hclSearch.string)
+                break'''
+
+            Valid += 1
         
         
 
     else:
-        dane = ""
-        numOfFields = 0
-        data = ""
+        dane = list()
         e = 0
+        slow = dict()
         
 
 print(Valid)
